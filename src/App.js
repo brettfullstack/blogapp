@@ -1,11 +1,11 @@
 import { TopBar } from "./components";
-import { Home, SiglePost } from "./pages";
+import { Home, SiglePost, Write } from "./pages";
 
 function App() {
   return (
     <div>
       <TopBar />
-      <SiglePost />
+      <Write />
     </div>
   );
 }
