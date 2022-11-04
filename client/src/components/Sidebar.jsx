@@ -1,7 +1,23 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { AiFillLinkedin, AiFillInstagram, AiFillGithub } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
+  const [cat, setCat] = useState([]);
+
+  const getCat = async () => {
+    await axios
+      .get("/categories")
+      .then((res) => {
+        setCat(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getCat();
+  }, []);
+
   return (
     <div className="hidden sm:flex flex-[3] m-5 bg-[#fdfbfb]  rounded-xl flex-col items-center">
       <div className="flex flex-col justify-center items-center">
@@ -24,10 +40,10 @@ const Sidebar = () => {
           Categories
         </span>
         <ul className="my-[10px] space-x-2">
-          {["Coding", "Music", "E-Spor", "Game"].map((item, idx) => (
-            <li className="inline-block varela" key={idx}>
-              {item}
-            </li>
+          {cat.map((item, idx) => (
+            <Link to={`/?cat=${item.name}`} key={idx}>
+              <li className="inline-block varela">{item.name}</li>
+            </Link>
           ))}
         </ul>
       </div>

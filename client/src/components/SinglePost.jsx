@@ -1,20 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GrEdit } from "react-icons/gr";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const SinglePost = () => {
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+  const [post, setPost] = useState({});
+
+  const getPost = async () => {
+    await axios
+      .get(`/posts/${path}`)
+      .then((res) => {
+        setPost(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getPost();
+  }, [path]);
+
   return (
     <div className="flex-[9]">
-      <div className="p-[20px] pr-0">
+      <div className="p-[20px]">
         <img
           className="w-full h-[300px] object-cover rounded"
-          src="https://images.pexels.com/photos/7753054/pexels-photo-7753054.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={
+            post.photo
+              ? post.photo
+              : `https://images.pexels.com/photos/7753054/pexels-photo-7753054.jpeg?auto=compress&cs=tinysrgb&w=1600`
+          }
           alt="pictures"
         />
         <div className="flex justify-between items-center text-center lara text-3xl font-bold italic mt-3">
           <p></p>
-          <p>Lorem ipsum dolor sit amet</p>
+          <p>{post.title}</p>
           <div className="flex gap-1 text-[20px]">
             <div className="cursor-pointer">
               <GrEdit />
@@ -26,26 +48,15 @@ const SinglePost = () => {
         </div>
         <div className="flex justify-between mt-2 mb-5 text-base varela">
           <span>
-            Author: <b>Mustafa Basar</b>
+            Author:
+            <Link to={`/?user=${post.username}`}>
+              <b>{post.username}</b>
+            </Link>
           </span>
-          <span>1 hour ago</span>
+          <span>{new Date(post.createdAt).toDateString()}</span>
         </div>
         <p className="text-[#666] text-xl first-letter:ml-5 first-letter:text-[40px] first-letter:font-semibold">
-          Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor
-          sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem
-          ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit
-          amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
-          dolor sit ametLorem ipsum dolor sit amet Lorem ipsum dolor sit amet
-          Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum
-          dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit
-          ametLorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
-          dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
-          Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum
-          dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit
-          ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet Lorem ipsum
-          dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
-          Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum
-          dolor sit amet
+          {post.desc}
         </p>
         <div className="mt-5">
           <p className="text-center text-3xl">Comment</p>

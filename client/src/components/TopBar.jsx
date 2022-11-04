@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaSearch } from "react-icons/fa";
 import { BiMenu } from "react-icons/bi";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { Context } from "../context/Context";
 
 const TopBar = () => {
   const [menu, setMenu] = useState(false);
   const [screenSize, setScreenSize] = useState(undefined);
+  const { user, dispatch } = useContext(Context);
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -35,9 +37,13 @@ const TopBar = () => {
       link: "",
     },
   ];
-
-  const user = false;
-
+  const handleLogOut = (idx) => {
+    if (idx === 2) {
+      dispatch({
+        type: "LOGOUT",
+      });
+    }
+  };
   return (
     <div className="w-full h-[50px] sticky top-0 flex items-center jost bg-white z-10">
       <div className="hidden sm:flex flex-[3] justify-center items-center">
@@ -62,10 +68,14 @@ const TopBar = () => {
             <ul className="flex flex-col justify-center items-center gap-5 mt-5">
               {pages.map((item, idx) => (
                 <li
-                  className="capitalize text-lg font-light cursor-pointer hover:underline"
+                  className={`uppercase text-lg font-light cursor-pointer hover:underline ${
+                    idx === 2 && !user && "hidden"
+                  }`}
                   key={idx}
                 >
-                  <Link to={`/${item.link}`}>{item.title}</Link>
+                  <Link to={`/${item.link}`} onClick={() => handleLogOut(idx)}>
+                    {item.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -74,10 +84,14 @@ const TopBar = () => {
           <ul className="hidden sm:flex justify-center items-center gap-5">
             {pages.map((item, idx) => (
               <li
-                className="capitalize text-lg font-light cursor-pointer hover:underline"
+                className={`uppercase text-lg font-light cursor-pointer hover:underline ${
+                  idx === 2 && !user && "hidden"
+                }`}
                 key={idx}
               >
-                <Link to={`/${item.link}`}>{item.title}</Link>
+                <Link to={`/${item.link}`} onClick={() => handleLogOut(idx)}>
+                  {item.title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -88,12 +102,16 @@ const TopBar = () => {
           <Link className="link" to="/settings">
             <img
               className="w-[40px] h-[40px] rounded-full object-cover"
-              src="https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512"
+              src={
+                user.profilePic
+                  ? user.profilePic
+                  : `https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512`
+              }
               alt="profile_pictures"
             />
           </Link>
         ) : (
-          <ul className="flex gap-3">
+          <ul className="flex gap-3 mr-2">
             <li className="text-lg hover:underline">
               <Link to="/login">LOGIN</Link>
             </li>
@@ -102,7 +120,6 @@ const TopBar = () => {
             </li>
           </ul>
         )}
-        <FaSearch className="text-lg cursor-pointer text-[#666]" />
       </div>
     </div>
   );

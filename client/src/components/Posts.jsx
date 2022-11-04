@@ -1,15 +1,12 @@
 import React from "react";
 import Post from "./Post";
 
-const Posts = () => {
+const Posts = ({ posts }) => {
   return (
     <div className="flex-[9] flex flex-wrap justify-center">
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      {posts.map((item, idx) => (
+        <Post key={idx} post={item} />
+      ))}
     </div>
   );
 };
