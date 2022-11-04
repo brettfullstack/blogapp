@@ -26,7 +26,7 @@ const Write = () => {
           <textarea
             placeholder="Type somethink"
             type="text"
-            className="py-2 px-5 w-full resize-none bg-slate-300 focus:bg-slate-200 focus:outline-none rounded-lg shadow text-slate-600"
+            className="py-2 px-5 h-[15rem] w-full resize-none bg-slate-300 focus:bg-slate-200 focus:outline-none rounded-lg shadow text-slate-600"
             required
           />
         </div>

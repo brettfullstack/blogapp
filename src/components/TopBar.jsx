@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { BiMenu } from "react-icons/bi";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const TopBar = () => {
   const [menu, setMenu] = useState(false);
@@ -19,6 +20,23 @@ const TopBar = () => {
       setMenu(false);
     }
   }, [screenSize]);
+
+  const pages = [
+    {
+      title: "Home",
+      link: "",
+    },
+    {
+      title: "Write",
+      link: "write",
+    },
+    {
+      title: "LogOut",
+      link: "",
+    },
+  ];
+
+  const user = false;
 
   return (
     <div className="w-full h-[50px] sticky top-0 flex items-center jost bg-white z-10">
@@ -42,39 +60,48 @@ const TopBar = () => {
               <p className="text-xl">Blog</p>
             </div>
             <ul className="flex flex-col justify-center items-center gap-5 mt-5">
-              {["Home", "About", "Contact", "Write", "LogOut"].map(
-                (item, idx) => (
-                  <li
-                    className="text-lg font-light cursor-pointer hover:underline"
-                    key={idx}
-                  >
-                    {item}
-                  </li>
-                )
-              )}
+              {pages.map((item, idx) => (
+                <li
+                  className="capitalize text-lg font-light cursor-pointer hover:underline"
+                  key={idx}
+                >
+                  <Link to={`/${item.link}`}>{item.title}</Link>
+                </li>
+              ))}
             </ul>
           </div>
         ) : (
           <ul className="hidden sm:flex justify-center items-center gap-5">
-            {["Home", "About", "Contact", "Write", "LogOut"].map(
-              (item, idx) => (
-                <li
-                  className="text-lg font-light cursor-pointer hover:underline"
-                  key={idx}
-                >
-                  {item}
-                </li>
-              )
-            )}
+            {pages.map((item, idx) => (
+              <li
+                className="capitalize text-lg font-light cursor-pointer hover:underline"
+                key={idx}
+              >
+                <Link to={`/${item.link}`}>{item.title}</Link>
+              </li>
+            ))}
           </ul>
         )}
       </div>
       <div className="flex-[3] flex items-center justify-center gap-3">
-        <img
-          className="w-[40px] h-[40px] rounded-full object-cover"
-          src="https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512"
-          alt="profile_pictures"
-        />
+        {user ? (
+          <Link className="link" to="/settings">
+            <img
+              className="w-[40px] h-[40px] rounded-full object-cover"
+              src="https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512"
+              alt="profile_pictures"
+            />
+          </Link>
+        ) : (
+          <ul className="flex gap-3">
+            <li className="text-lg hover:underline">
+              <Link to="/login">LOGIN</Link>
+            </li>
+            <li className="text-lg hover:underline">
+              <Link to="/register">REGISTER</Link>
+            </li>
+          </ul>
+        )}
         <FaSearch className="text-lg cursor-pointer text-[#666]" />
       </div>
     </div>
