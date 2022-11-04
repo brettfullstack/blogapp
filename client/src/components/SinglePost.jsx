@@ -137,7 +137,7 @@ const SinglePost = () => {
             <p className="jost ml-5">Congrats on a useful blog post</p>
           </div>
           {/*  */}
-          <div className="flex items-center">
+          <div className={`${user ? "flex" : "hidden"} items-center`}>
             <input
               className="mt-2 py-3 px-5 bg-slate-300 w-full focus:outline-none rounded-lg focus:shadow focus:bg-slate-200"
               placeholder="Type your comment"
