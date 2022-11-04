@@ -15,6 +15,8 @@ const SinglePost = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
 
   const { user } = useContext(Context);
 
@@ -22,6 +24,7 @@ const SinglePost = () => {
     await axios
       .get(`/posts/${path}`)
       .then((res) => {
+        setComments(res.data.comments);
         setPost(res.data);
         setTitle(res.data.title);
         setDesc(res.data.desc);
@@ -50,6 +53,21 @@ const SinglePost = () => {
         desc,
       })
       .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleCommentClick = async () => {
+    const newComment = {
+      username: user.username,
+      comment,
+      postId: post._id,
+    };
+    axios
+      .post("/comment", newComment)
+      .then((res) => {
+        console.log(res);
         window.location.reload();
       })
       .catch((err) => console.log(err));
@@ -128,22 +146,36 @@ const SinglePost = () => {
         <div className="mt-5">
           <p className="text-center text-3xl">Comment</p>
           {/*  */}
-          <div className="bg-slate-100 p-2 mt-5 flex items-center rounded-lg">
-            <img
-              className="w-[3.5rem] h-[3.5rem] rounded-full"
-              src="https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512"
-              alt="comment_profile"
-            />
-            <p className="jost ml-5">Congrats on a useful blog post</p>
-          </div>
+          {comments.length === 0 && (
+            <p className="text-lg text-center mt-5">
+              No one has commented yet, be the first to comment
+            </p>
+          )}
+          {comments.map((item, idx) => (
+            <div
+              className="bg-slate-100 p-2 mt-5 flex items-center rounded-lg"
+              key={idx}
+            >
+              <img
+                className="w-[3.5rem] h-[3.5rem] rounded-full"
+                src="https://images.pexels.com/photos/13672084/pexels-photo-13672084.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="comment_profile"
+              />
+              <p className="jost ml-5">{item}</p>
+            </div>
+          ))}
           {/*  */}
           <div className={`${user ? "flex" : "hidden"} items-center`}>
             <input
               className="mt-2 py-3 px-5 bg-slate-300 w-full focus:outline-none rounded-lg focus:shadow focus:bg-slate-200"
               placeholder="Type your comment"
+              onChange={(e) => setComment(e.target.value)}
             />
 
-            <BiSend className="text-4xl cursor-pointer text-slate-500" />
+            <BiSend
+              className="text-4xl cursor-pointer text-slate-500"
+              onClick={handleCommentClick}
+            />
           </div>
         </div>
       </div>
