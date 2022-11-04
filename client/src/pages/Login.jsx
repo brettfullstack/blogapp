@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useContext } from "react";
 import { Context } from "../context/Context";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 const Login = () => {
   const userRef = useRef();
   const passwordRef = useRef();
@@ -63,7 +64,9 @@ const Login = () => {
           </form>
           <div className="mt-5 text-slate-400">
             If you don't have an account{" "}
-            <span className="text-blue-500 cursor-pointer">Register</span>
+            <Link to="/register">
+              <span className="text-blue-500 cursor-pointer">Register</span>
+            </Link>
           </div>
         </div>
       </div>

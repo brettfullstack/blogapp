@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -68,7 +69,9 @@ const Register = () => {
           </form>
           <div className="mt-5 text-slate-400">
             If you have an account{" "}
-            <span className="text-blue-500 cursor-pointer">Login</span>
+            <Link to="/login">
+              <span className="text-blue-500 cursor-pointer">Login</span>
+            </Link>
           </div>
         </div>
       </div>
