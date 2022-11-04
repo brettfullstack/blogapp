@@ -105,7 +105,7 @@ const TopBar = () => {
               src={
                 user.profilePic
                   ? user.profilePic
-                  : `https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512`
+                  : `https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500`
               }
               alt="profile_pictures"
             />

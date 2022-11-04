@@ -1,26 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GrEdit } from "react-icons/gr";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
+import { Context } from "../context/Context";
 
 const SinglePost = () => {
+  const photoFolder = "http://localhost:5000/images/";
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
+
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  const { user } = useContext(Context);
 
   const getPost = async () => {
     await axios
       .get(`/posts/${path}`)
       .then((res) => {
         setPost(res.data);
+        setTitle(res.data.title);
+        setDesc(res.data.desc);
       })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
     getPost();
   }, [path]);
+
+  const handleDelete = async () => {
+    await axios
+      .delete(`/posts/${post._id}`, { data: { username: user.username } })
+      .then((res) => {
+        console.log(res);
+        window.location.replace(`/`);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleUpdate = async () => {
+    await axios
+      .put(`/posts/${post._id}`, {
+        username: user.username,
+        title,
+        desc,
+      })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="flex-[9]">
@@ -29,22 +62,39 @@ const SinglePost = () => {
           className="w-full h-[300px] object-cover rounded"
           src={
             post.photo
-              ? post.photo
+              ? photoFolder + post.photo
               : `https://images.pexels.com/photos/7753054/pexels-photo-7753054.jpeg?auto=compress&cs=tinysrgb&w=1600`
           }
           alt="pictures"
         />
         <div className="flex justify-between items-center text-center lara text-3xl font-bold italic mt-3">
           <p></p>
-          <p>{post.title}</p>
-          <div className="flex gap-1 text-[20px]">
-            <div className="cursor-pointer">
-              <GrEdit />
+          {isUpdate ? (
+            <input
+              type="text"
+              className="w-full focus:outline-none bg-slate-300 focus:bg-slate-200 p-2 rounded-lg shadow-lg"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          ) : (
+            <p>{post.title}</p>
+          )}
+          {post.username === user?.username && (
+            <div className="flex gap-1 text-[20px]">
+              <div
+                className="cursor-pointer"
+                onClick={() => setIsUpdate(!isUpdate)}
+              >
+                <GrEdit />
+              </div>
+              <div
+                className="cursor-pointer text-red-700"
+                onClick={handleDelete}
+              >
+                <AiTwotoneDelete />
+              </div>
             </div>
-            <div className="cursor-pointer text-red-700">
-              <AiTwotoneDelete />
-            </div>
-          </div>
+          )}
         </div>
         <div className="flex justify-between mt-2 mb-5 text-base varela">
           <span>
@@ -55,9 +105,26 @@ const SinglePost = () => {
           </span>
           <span>{new Date(post.createdAt).toDateString()}</span>
         </div>
-        <p className="text-[#666] text-xl first-letter:ml-5 first-letter:text-[40px] first-letter:font-semibold">
-          {post.desc}
-        </p>
+        {isUpdate ? (
+          <textarea
+            className="w-full resize-none h-[10rem] focus:outline-none bg-slate-300 focus:bg-slate-200 p-2 rounded-lg shadow-lg"
+            type="text"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+        ) : (
+          <p className="text-[#666] text-xl first-letter:ml-5 first-letter:text-[40px] first-letter:font-semibold flex">
+            {post.desc}
+          </p>
+        )}
+        {isUpdate && (
+          <button
+            className="w-full bg-blue-500 py-2 text-xl text-white hover:bg-blue-300 rounded-lg my-2"
+            onClick={handleUpdate}
+          >
+            Update Post
+          </button>
+        )}
         <div className="mt-5">
           <p className="text-center text-3xl">Comment</p>
           {/*  */}

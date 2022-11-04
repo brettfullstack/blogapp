@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
+  const photoFolder = "http://localhost:5000/images/";
   return (
     <div className="sm:w-[385px] mx-[25px] mb-[40px] mt-5">
       <img
         className="w-full h-[280px] object-cover rounded-xl"
         src={
           post.photo
-            ? post.photo
+            ? photoFolder + post.photo
             : "https://images.pexels.com/photos/13672084/pexels-photo-13672084.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         }
         alt="post_image"
