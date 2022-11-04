@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useRef } from "react";
 import { useContext } from "react";
 import { Context } from "../context/Context";
-
+import toast, { Toaster } from "react-hot-toast";
 const Login = () => {
   const userRef = useRef();
   const passwordRef = useRef();
@@ -19,10 +19,14 @@ const Login = () => {
       .then((res) => {
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       })
-      .catch((err) => dispatch({ type: "LOGIN_FAILURE" }));
+      .catch((err) => {
+        dispatch({ type: "LOGIN_FAILURE" });
+        toast.error("Something went wrong try again");
+      });
   };
   return (
     <div className="login w-screen">
+      <Toaster />
       <div className="flex flex-col justify-center items-center h-full">
         <div className="bg-white px-10 py-[4rem] rounded-lg">
           <p className="text-4xl text-center mb-10 varela">Login</p>
