@@ -3,7 +3,7 @@ import React from "react";
 const DashboradComment = ({ data }) => {
   return (
     <div className="2xl:max-w-screen-2xl 2xl:mx-auto mx-5 sm:mx-10 bg-slate-300 mt-[5rem] p-5 rounded-lg shadow-xl">
-      <p className="text-3xl text-center uppercase varela">user panel</p>
+      <p className="text-3xl text-center uppercase varela">comment panel</p>
       <div className="overflow-auto rounded-lg">
         <table className="w-full mt-10">
           <thead className="bg-gray-50 border-b-2 border-gray-200">
