@@ -22,4 +22,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Get All Comment
+
+router.get("/", async (req, res) => {
+  try {
+    let comment = await Comment.find();
+    res.status(200).json(comment);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

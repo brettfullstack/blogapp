@@ -59,4 +59,21 @@ router.get("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+// Get All User
+
+router.get("/", async (req, res) => {
+  let userArray = [];
+  try {
+    let users = await User.find();
+    for (let i = 0; i < users.length; i++) {
+      const { password, ...others } = users[i]._doc;
+      userArray.push(others);
+    }
+    res.status(200).json(userArray);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

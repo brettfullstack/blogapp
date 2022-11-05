@@ -1,5 +1,13 @@
 import { TopBar } from "./components";
-import { Home, Settings, Single, Write, Login, Register } from "./pages";
+import {
+  Home,
+  Settings,
+  Single,
+  Write,
+  Login,
+  Register,
+  Dashboard,
+} from "./pages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "./context/Context";
@@ -14,6 +22,10 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/posts" element={<Home />} />
+          <Route
+            path="/dashboard"
+            element={user?.username === "admin" ? <Dashboard /> : <Home />}
+          />
           <Route path="/register" element={user ? <Home /> : <Register />} />
           <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/post/:id" element={<Single />} />

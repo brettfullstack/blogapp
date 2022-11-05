@@ -78,6 +78,15 @@ const TopBar = () => {
                   </Link>
                 </li>
               ))}
+              <Link to="/dashboard">
+                <li
+                  className={`uppercase text-lg font-light cursor-pointer hover:underline ${
+                    user?.username === "admin" ? "block" : "hidden"
+                  }`}
+                >
+                  Dashboard
+                </li>
+              </Link>
             </ul>
           </div>
         ) : (
@@ -94,6 +103,15 @@ const TopBar = () => {
                 </Link>
               </li>
             ))}
+            <Link to="/dashboard">
+              <li
+                className={`uppercase text-lg font-light cursor-pointer hover:underline ${
+                  user?.username === "admin" ? "block" : "hidden"
+                }`}
+              >
+                Dashboard
+              </li>
+            </Link>
           </ul>
         )}
       </div>
