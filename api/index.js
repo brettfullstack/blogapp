@@ -46,3 +46,5 @@ app.use("/api/comment", commentRoute);
 app.listen(5000, () => {
   console.log("Backend is running");
 });
+
+module.exports = app;
