@@ -25,8 +25,8 @@ const Sidebar = () => {
           About Me
         </span>
         <img
-          className="mt-[15px] rounded-full w-[10rem] h-[10rem]"
-          src="https://ca.slack-edge.com/T03LBL87DA8-U03RGMLSW1L-e6bd17d33a8b-512"
+          className="mt-[15px] rounded-full w-[10rem] h-[10rem] object-cover"
+          src="https://images.pexels.com/photos/13672084/pexels-photo-13672084.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="profile_photo"
         />
         <p className="p-8">
